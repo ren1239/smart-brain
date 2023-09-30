@@ -80,15 +80,18 @@ function App() {
     setImageUrl(input);
     // Send the image URL to your backend for Clarifai API processing
     try {
-      const response = await fetch("http://localhost:3000/clarifai", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          imageUrl: input,
-        }),
-      });
+      const response = await fetch(
+        "https://brain-backend-ubi3.onrender.com/clarifai",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            imageUrl: input,
+          }),
+        }
+      );
       if (!response.ok) {
         throw new Error("API request failed");
       }
