@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navigation from "./Components/Navigation/Navigation";
 import Logo from "./Components/Logo/Logo";
 import ImageLinkForm from "./Components/ImageLinkForm/ImageLinkForm";
@@ -15,6 +15,7 @@ function App() {
   const [boundingBox, setBoundingBox] = useState({});
   const [route, setRoute] = useState("signin");
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [particleCount, setParticleCount] = useState(50);
   const [user, setUser] = useState({
     id: "",
     name: "",
@@ -143,6 +144,29 @@ function App() {
     setRoute(route);
   };
 
+  // Function to update particle count based on screen width
+  const updateParticleCount = () => {
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 700) {
+      // For screens smaller or equal to 768px (e.g., mobile), set count to 30
+      setParticleCount(30);
+    } else {
+      // For larger screens, set count to 300
+      setParticleCount(300);
+    }
+  };
+
+  useEffect(() => {
+    updateParticleCount();
+
+    // Add a resize event listener to update particle count dynamically
+    window.addEventListener("resize", updateParticleCount);
+
+    return () => {
+      // Don't remove the event listener; keep it active for continuous updates
+    };
+  }, []);
+
   return (
     <div className="App">
       <ParticlesBg
@@ -150,7 +174,7 @@ function App() {
         type="cobweb"
         bg={true}
         color="#FFFFFF"
-        num={300}
+        num={particleCount}
       />
 
       <Navigation onRouteChange={onRouteChange} isSignedIn={isSignedIn} />
