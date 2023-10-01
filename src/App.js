@@ -103,10 +103,31 @@ function App() {
 
       // Update user entries - You may need to adjust this part based on your backend response
       // setUser(Object.assign(user, { entries: count }));
-      setUser((prevState) => ({
-        ...prevState,
-        entries: result.entries, // Adjust this based on your backend response
-      }));
+
+      const imageResponse = await fetch(
+        "https://brain-backend-ubi3.onrender.com/image",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: user.id,
+          }),
+        }
+      );
+      const imageResult = await imageResponse.json();
+
+      if (imageResponse.ok) {
+        setUser((prevState) => ({
+          ...prevState,
+          entries: imageResult, // Adjust this based on your backend response
+        }));
+        console.log("result:", imageResult);
+        console.log("result entries:", imageResult.entries);
+      } else if (!imageResponse.ok) {
+        throw new Error("Failed to update entries in the backend");
+      }
     } catch (error) {
       console.error("error", error);
     }
