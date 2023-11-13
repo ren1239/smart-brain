@@ -172,7 +172,7 @@ function App() {
       <ParticlesBg
         className="background"
         type="cobweb"
-        bg={true}
+        bg={false}
         color="#FFFFFF"
         num={particleCount}
       />
